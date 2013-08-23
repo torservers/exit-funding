@@ -1,0 +1,120 @@
+===============
+exit-funding.py
+===============
+
+The `exit-funding.py` script is written as part as the effort to provide
+financial support to torservers.net partner organizations.
+
+This script will analyze archives of Tor network statuses in order to
+share a monthly amount of money between organizations. Each share is
+calculated using two factors
+
+ * how much bandwidth an organization have contributed to the network,
+ * the location of its exit nodes.
+
+Usage
+=====
+
+    ./exit-funding YYYY-MM MONTHLY_AMOUNT
+
+`YYYY-MM`
+:    The month for which the computation must be done.
+
+
+`MONTHLY_AMOUNT`
+:    The round amount of euros shared between partners organization for
+     the given month.
+
+The script will put *uncompressed* metrics data file in the `archives`
+subdirectory. Watch out, this can take up more than a gigabyte of disk space!
+
+The result of parsing metrics data will be cached. To start the parsing
+process again, please remove the cache file named like
+`archives/exit-funding-YYYY-MM.pickle`.
+
+Installation
+============
+
+External dependencies:
+
+ * PrettyTable <https://code.google.com/p/prettytable/>
+
+On a Debian system, issue the following command:
+
+    apt-get install python-prettytable
+
+On anything else, the following should work:
+
+    pip install PrettyTable
+
+Configuration
+=============
+
+The script will read its configuration from two files written
+using the YAML format:
+
+partners.yaml: partners organizations
+-------------------------------------
+
+The file `partners.yaml` contains a description of the partners organizations.
+
+For each organization, a stanza must be added, e.g.:
+
+    zwibelfreunde:
+      name: Zwiebelfreunde e.V.
+      contacts:
+        - Torservers.net <support .AT. torservers .DOT. net>
+
+*id*
+:    An identifier for the organization. Do not use fancy characters.
+
+`name`
+:    The full name of the organization.
+
+`contacts`
+:    A list of every string that can appear in the contact field for relays
+     run by the organization.
+
+country-factors.yaml: incentive factors by countries
+------------------------------------------------------
+
+The file `country-factors.yaml` contains a table of country code and
+their associated incentive factor.
+
+Here's an excerpt:
+
+    cn: 2.127412
+    ru: 1.909634
+    nl: 0.885657
+    pt: 2.155738
+
+Contact name is common identifier for the family. List of contact names for
+each partners.
+
+The scripts `country-factor-helper.py` and `exit-probability-factors.py`
+are both attempts to produce country factor tables that depends on
+the current exit probabilities of each country.
+
+Misc. implementation notes
+==========================
+
+This script will use uncompressed archives from metrics.torproject.org.
+
+Archives from metrics are compressed with bzip2. Due to limitations in Python,
+parsing compressed metrics data with Stem is very very very slow. Using
+uncompressed archives overcome this issue.
+
+Authors and licensing information
+=================================
+
+`exit-funding.py`
+:    Copyright © Lunar <lunar@torproject.org>  
+     Licensed under Expat (more commonly known as MIT)
+
+`country-factors-helper.py`
+:    Copyright © Lunar <lunar@torproject.org>  
+     Licensed under Expat (more commonly known as MIT)
+
+`exit-probability-factors.py`
+:    Copyright © 2013 Isis Agora Lovecruft, The Tor Project, Inc.  
+     Licensed under Three-clause BSD
