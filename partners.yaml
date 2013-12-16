@@ -1,24 +1,30 @@
-zwibelfreunde:
-  name: Zwiebelfreunde e.V.
-  contacts:
-    - Torservers.net <support .AT. torservers .DOT. net>
 dfri:
   name: DFRI
   contacts:
     -  DFRI <tor AT dfri dot se>
-nos-oignons:
-  name: Nos oignons
-  contacts:
-    - 0x9F29C15D42A8B6F3 Nos oignons <adminsys@nos-oignons.net>
-swiss-privacy-foundation:
-  name: Swiss Privacy Foundation
-  contacts:
-    - http://www.privacyfoundation.ch/abuse/
 frenn-vun-der-enn:
   name: Frënn vun der Ënn
   contacts:
-    - FVDE Frenn vun der Enn <info AT enn DOT lu>
-noisetor:
-  name: NoiseTor
+    - 0x02225522 Frenn vun der Enn (FVDE) <info AT enn DOT lu> 
+swissprivacy:
+  name: Swiss Privacy Foundation 
   contacts:
-    - tor.noisebridge.net <admin@tor.noisebridge.net>
+    - http://www.privacyfoundation.ch/abuse/ 
+access:
+  name: Access
+  contacts:
+    - servers@accessnow.org <servers .AT. accessnow .DOT. org>
+calyx:
+  name: Calyx
+  contacts:
+    - Nicholas Merrill <nick AT calyx dot com>
+    - Nick Merrill nick@calyx.com
+    - Nick Merrill <nick AT calyx dot com>
+nosoignons:
+  name: Nos Oignons
+  contacts:
+    - 0x9F29C15D42A8B6F3 Nos oignons <adminsys@nos-oignons.net>
+koumbit:
+  name: Koumbit
+  contacts:
+    - Koumbit Support <support+tor@koumbit.org>
