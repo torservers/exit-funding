@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
@@ -55,14 +56,14 @@ def download_and_uncompress(url, dest):
     response = urllib2.urlopen(url)
     try:
         with open(dest, 'w') as archive:
-            process = subprocess.Popen(['bzcat'], stdin=subprocess.PIPE, stdout=archive, stderr=sys.stderr)
+            process = subprocess.Popen(['xz', '-dc'], stdin=subprocess.PIPE, stdout=archive, stderr=sys.stderr)
             buf = None
             bytes_read = 0
             while buf != '':
                 buf = response.read(BUF_SIZE)
                 bytes_read += len(buf)
                 process.stdin.write(buf)
-                print >>sys.stderr, "Download %s: %d bytes read…\r" % (url, bytes_read),
+                print >>sys.stderr, "Download %s: %d bytes read¿\r" % (url, bytes_read),
             process.stdin.close()
             retcode = process.poll()
             if retcode:
@@ -74,7 +75,7 @@ def download_and_uncompress(url, dest):
 def download_metrics_archive(path):
     if not os.path.exists(os.path.dirname(path)):
         os.mkdir(os.path.dirname(path))
-    url = 'https://metrics.torproject.org/data/%s.bz2' % (os.path.basename(path),)
+    url = 'https://collector.torproject.org/archive/relay-descriptors/%s.xz' % (os.path.relpath(path,ARCHIVE_DIR),)
     download_and_uncompress(url, path)
 
 class Partner(object):
@@ -121,7 +122,7 @@ class VerboseDescriptorReader(object):
         for d in self._reader:
             self._entries_seen += 1
             if self._entries_seen % 25 == 0:
-                print >>sys.stderr, "%d documents parsed…\r" % (self._entries_seen,),
+                print >>sys.stderr, "%d documents parsed¿\r" % (self._entries_seen,),
             yield d
 
     def __enter__(self):
@@ -137,13 +138,13 @@ class ExitFundingProcessor(object):
         self.monthly_amount = monthly_amount
         self.country_factors = None
         # Stem Controller, used to perform GeoIP lookup against Tor database
-        self.controller = Controller.from_port(port=9151)
+        self.controller = Controller.from_port(port=9051)
         self.controller.authenticate()
-        # Dictionary of partner_id → Partner object
+        # Dictionary of partner_id ¿ Partner object
         self.partners = None
-        # Dictionary of contact string → Partner object
+        # Dictionary of contact string ¿ Partner object
         self.contacts = None
-        # Dictionary of relay fingerprint → Relay object
+        # Dictionary of relay fingerprint ¿ Relay object
         self.relays = None
 
     def process_metrics(self):
@@ -172,11 +173,11 @@ class ExitFundingProcessor(object):
 
     @property
     def descriptors_path(self):
-        return os.path.join(ARCHIVE_DIR, 'server-descriptors-%s.tar') % (self.month,)
+        return os.path.join(ARCHIVE_DIR, 'server-descriptors', 'server-descriptors-%s.tar') % (self.month,)
 
     @property
     def consensuses_path(self):
-        return os.path.join(ARCHIVE_DIR, 'consensuses-%s.tar') % (self.month,)
+        return os.path.join(ARCHIVE_DIR, 'consensuses', 'consensuses-%s.tar') % (self.month,)
 
     @property
     def cache_path(self):
@@ -245,9 +246,9 @@ class ExitFundingProcessor(object):
             for relay in relays:
                 t.add_row([relay.nickname,
                            "%0.02f Mbit/s" % (relay.total_reported_bandwidth * 8 / 1000000.0,),
-                           relay.country, "%0.02f €" % relay.support])
+                           relay.country, "%0.02f ¿" % relay.support])
             print t
-            print "Financial support: %0.02f €" % (partner.support,)
+            print "Financial support: %0.02f ¿" % (partner.support,)
             print ""
 
     def load_cache(self):
@@ -289,3 +290,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
