@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
@@ -63,7 +62,7 @@ def download_and_uncompress(url, dest):
                 buf = response.read(BUF_SIZE)
                 bytes_read += len(buf)
                 process.stdin.write(buf)
-                print >>sys.stderr, "Download %s: %d bytes read¿\r" % (url, bytes_read),
+                print >>sys.stderr, "Download %s: %d bytes read…\r" % (url, bytes_read),
             process.stdin.close()
             retcode = process.poll()
             if retcode:
@@ -122,7 +121,7 @@ class VerboseDescriptorReader(object):
         for d in self._reader:
             self._entries_seen += 1
             if self._entries_seen % 25 == 0:
-                print >>sys.stderr, "%d documents parsed¿\r" % (self._entries_seen,),
+                print >>sys.stderr, "%d documents parsed…\r" % (self._entries_seen,),
             yield d
 
     def __enter__(self):
@@ -138,13 +137,13 @@ class ExitFundingProcessor(object):
         self.monthly_amount = monthly_amount
         self.country_factors = None
         # Stem Controller, used to perform GeoIP lookup against Tor database
-        self.controller = Controller.from_port(port=9051)
+        self.controller = Controller.from_port(port=9151)
         self.controller.authenticate()
-        # Dictionary of partner_id ¿ Partner object
+        # Dictionary of partner_id → Partner object
         self.partners = None
-        # Dictionary of contact string ¿ Partner object
+        # Dictionary of contact string → Partner object
         self.contacts = None
-        # Dictionary of relay fingerprint ¿ Relay object
+        # Dictionary of relay fingerprint → Relay object
         self.relays = None
 
     def process_metrics(self):
@@ -246,9 +245,9 @@ class ExitFundingProcessor(object):
             for relay in relays:
                 t.add_row([relay.nickname,
                            "%0.02f Mbit/s" % (relay.total_reported_bandwidth * 8 / 1000000.0,),
-                           relay.country, "%0.02f ¿" % relay.support])
+                           relay.country, "%0.02f €" % relay.support])
             print t
-            print "Financial support: %0.02f ¿" % (partner.support,)
+            print "Financial support: %0.02f €" % (partner.support,)
             print ""
 
     def load_cache(self):
@@ -290,4 +289,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
