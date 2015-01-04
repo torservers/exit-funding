@@ -55,7 +55,7 @@ def download_and_uncompress(url, dest):
     response = urllib2.urlopen(url)
     try:
         with open(dest, 'w') as archive:
-            process = subprocess.Popen(['bzcat'], stdin=subprocess.PIPE, stdout=archive, stderr=sys.stderr)
+            process = subprocess.Popen(['xz', '-dc'], stdin=subprocess.PIPE, stdout=archive, stderr=sys.stderr)
             buf = None
             bytes_read = 0
             while buf != '':
@@ -74,7 +74,7 @@ def download_and_uncompress(url, dest):
 def download_metrics_archive(path):
     if not os.path.exists(os.path.dirname(path)):
         os.mkdir(os.path.dirname(path))
-    url = 'https://metrics.torproject.org/data/%s.bz2' % (os.path.basename(path),)
+    url = 'https://collector.torproject.org/archive/relay-descriptors/%s.xz' % (os.path.relpath(path,ARCHIVE_DIR),)
     download_and_uncompress(url, path)
 
 class Partner(object):
@@ -172,11 +172,11 @@ class ExitFundingProcessor(object):
 
     @property
     def descriptors_path(self):
-        return os.path.join(ARCHIVE_DIR, 'server-descriptors-%s.tar') % (self.month,)
+        return os.path.join(ARCHIVE_DIR, 'server-descriptors', 'server-descriptors-%s.tar') % (self.month,)
 
     @property
     def consensuses_path(self):
-        return os.path.join(ARCHIVE_DIR, 'consensuses-%s.tar') % (self.month,)
+        return os.path.join(ARCHIVE_DIR, 'consensuses', 'consensuses-%s.tar') % (self.month,)
 
     @property
     def cache_path(self):
