@@ -3,7 +3,7 @@ dfri:
   contacts:
     -  DFRI <tor AT dfri dot se>
 frenn-vun-der-enn:
-  name: Frënn vun der Ënn
+  name: Frenn vun der Enn
   contacts:
     - 0x02225522 Frenn vun der Enn (FVDE) <info AT enn DOT lu> 
 swissprivacy:
@@ -14,6 +14,7 @@ access:
   name: Access
   contacts:
     - servers@accessnow.org <servers .AT. accessnow .DOT. org>
+    - Accessnow.org <servers .AT. accessnow .DOT. org>
 calyx:
   name: Calyx
   contacts:
